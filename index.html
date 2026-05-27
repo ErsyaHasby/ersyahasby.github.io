@@ -1,1020 +1,425 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ersya Hasby Satria — Developer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet" />
-    <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --black: #080a0e;
-            --black2: #0d1117;
-            --gray: #1a1f2e;
-            --gray2: #252b3b;
-            --blue: #2563eb;
-            --blue-bright: #3b82f6;
-            --blue-glow: #60a5fa;
-            --blue-dim: #1d4ed8;
-            --white: #f0f4ff;
-            --muted: #6b7a99;
-            --muted2: #4a5568;
-            --font-display: 'Bebas Neue', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: var(--black);
-            color: var(--white);
-            font-family: var(--font-body);
-            font-size: 16px;
-            line-height: 1.6;
-            overflow-x: hidden;
-            cursor: none;
-        }
-
-        /* ─── CURSOR ─── */
-        #cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 12px;
-            height: 12px;
-            background: var(--blue-bright);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: transform 0.15s ease, background 0.2s ease;
-            mix-blend-mode: screen;
-        }
-
-        #cursor-ring {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 38px;
-            height: 38px;
-            border: 1.5px solid rgba(59, 130, 246, 0.5);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: all 0.35s cubic-bezier(.23, 1, .32, 1);
-        }
-
-        body:has(a:hover) #cursor-ring,
-        body:has(button:hover) #cursor-ring {
-            transform: translate(-50%, -50%) scale(2);
-            border-color: var(--blue);
-        }
-
-        /* ─── NAV ─── */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            padding: 1.4rem 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            mix-blend-mode: normal;
-            transition: background 0.4s ease;
-        }
-
-        nav.scrolled {
-            background: rgba(8, 10, 14, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(37, 99, 235, 0.15);
-        }
-
-        .nav-logo {
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            letter-spacing: 0.15em;
-            color: var(--blue-glow);
-            text-decoration: none;
-            text-transform: uppercase;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.12em;
-            color: var(--muted);
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: color 0.2s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--white);
-        }
-
-        /* ─── HERO ─── */
-        #hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 0 3rem 5rem;
-            overflow: hidden;
-        }
-
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-            background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(37, 99, 235, 0.12) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 40% at 20% 80%, rgba(59, 130, 246, 0.07) 0%, transparent 50%);
-        }
-
-        /* Grid lines background */
-        .hero-grid {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-            background-image: linear-gradient(rgba(37, 99, 235, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(37, 99, 235, 0.04) 1px, transparent 1px);
-            background-size: 80px 80px;
-        }
-
-        /* Floating number decorations */
-        .hero-deco {
-            position: absolute;
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: rgba(59, 130, 246, 0.25);
-            letter-spacing: 0.1em;
-        }
-
-        .deco-1 {
-            top: 12%;
-            right: 5%;
-        }
-
-        .deco-2 {
-            top: 35%;
-            right: 8%;
-            font-size: 0.6rem;
-            color: rgba(59, 130, 246, 0.15);
-        }
-
-        .deco-3 {
-            top: 60%;
-            left: 5%;
-        }
-
-        .deco-4 {
-            bottom: 20%;
-            right: 15%;
-        }
-
-        .hero-tag {
-            position: relative;
-            z-index: 1;
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--blue-bright);
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.8s ease 0.2s forwards;
-        }
-
-        .hero-name {
-            position: relative;
-            z-index: 1;
-            font-family: var(--font-display);
-            line-height: 0.88;
-            font-size: clamp(5rem, 14vw, 13rem);
-            letter-spacing: -0.01em;
-            opacity: 0;
-            transform: translateY(40px);
-            animation: fadeUp 1s ease 0.4s forwards;
-        }
-
-        .hero-name span {
-            color: var(--blue-bright);
-        }
-
-        .hero-sub {
-            position: relative;
-            z-index: 1;
-            font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-            color: var(--muted);
-            max-width: 480px;
-            margin-top: 1.8rem;
-            line-height: 1.7;
-            font-weight: 300;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.8s ease 0.7s forwards;
-        }
-
-        .hero-cta {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-top: 2.5rem;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeUp 0.8s ease 0.9s forwards;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.9rem 2.2rem;
-            background: var(--blue);
-            color: var(--white);
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            text-decoration: none;
-            border: none;
-            cursor: none;
-            transition: background 0.25s ease, transform 0.2s ease;
-        }
-
-        .btn-primary:hover {
-            background: var(--blue-bright);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--muted);
-            text-decoration: none;
-            border-bottom: 1px solid var(--muted2);
-            padding-bottom: 2px;
-            transition: color 0.2s ease, border-color 0.2s ease;
-        }
-
-        .btn-secondary:hover {
-            color: var(--white);
-            border-color: var(--white);
-        }
-
-        /* Scroll indicator */
-        .scroll-hint {
-            position: absolute;
-            bottom: 2.5rem;
-            right: 3rem;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-family: var(--font-mono);
-            font-size: 0.62rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: var(--muted2);
-            animation: fadeUp 1s ease 1.2s both;
-        }
-
-        .scroll-line {
-            width: 40px;
-            height: 1px;
-            background: var(--muted2);
-            animation: expandLine 1.5s ease 1.5s both;
-        }
-
-        /* ─── SECTION GLOBALS ─── */
-        section {
-            padding: 8rem 3rem;
-        }
-
-        .section-label {
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: var(--blue-bright);
-            margin-bottom: 1.2rem;
-        }
-
-        .section-title {
-            font-family: var(--font-display);
-            font-size: clamp(3.5rem, 7vw, 7rem);
-            line-height: 0.9;
-            letter-spacing: 0.01em;
-        }
-
-        .divider {
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.3), transparent);
-        }
-
-        /* ─── ABOUT ─── */
-        #about {
-            background: var(--black2);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            margin-top: 5rem;
-            align-items: start;
-        }
-
-        .about-text p {
-            font-size: 1.05rem;
-            color: rgba(240, 244, 255, 0.75);
-            font-weight: 300;
-            line-height: 1.85;
-            margin-bottom: 1.4rem;
-        }
-
-        .about-text p strong {
-            color: var(--white);
-            font-weight: 500;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px;
-        }
-
-        .stat-box {
-            padding: 2rem 1.8rem;
-            border: 1px solid rgba(37, 99, 235, 0.12);
-            background: rgba(37, 99, 235, 0.04);
-            transition: background 0.3s ease, border-color 0.3s ease;
-        }
-
-        .stat-box:hover {
-            background: rgba(37, 99, 235, 0.08);
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-
-        .stat-num {
-            font-family: var(--font-display);
-            font-size: 3.5rem;
-            color: var(--blue-bright);
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-top: 0.5rem;
-        }
-
-        /* ─── STACK ─── */
-        #stack {
-            background: var(--black);
-        }
-
-        .stack-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 2px;
-            margin-top: 4rem;
-        }
-
-        .stack-item {
-            padding: 1.8rem 1.5rem;
-            border: 1px solid rgba(37, 99, 235, 0.1);
-            background: rgba(255, 255, 255, 0.02);
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stack-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .stack-item:hover {
-            border-color: rgba(59, 130, 246, 0.4);
-            transform: translateY(-3px);
-        }
-
-        .stack-item:hover::before {
-            opacity: 1;
-        }
-
-        .stack-icon {
-            font-size: 1.8rem;
-            margin-bottom: 0.7rem;
-        }
-
-        .stack-name {
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        /* ─── PROJECTS ─── */
-        #projects {
-            background: var(--black2);
-        }
-
-        .projects-list {
-            margin-top: 4rem;
-        }
-
-        .project-item {
-            display: grid;
-            grid-template-columns: 80px 1fr auto;
-            align-items: center;
-            gap: 2rem;
-            padding: 2rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-item::before {
-            content: '';
-            position: absolute;
-            left: -100%;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.04), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .project-item:hover::before {
-            left: 100%;
-        }
-
-        .project-item:hover {
-            padding-left: 1rem;
-        }
-
-        .project-num {
-            font-family: var(--font-mono);
-            font-size: 0.68rem;
-            color: rgba(37, 99, 235, 0.4);
-            letter-spacing: 0.1em;
-        }
-
-        .project-name {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            letter-spacing: 0.03em;
-            transition: color 0.2s ease;
-        }
-
-        .project-item:hover .project-name {
-            color: var(--blue-bright);
-        }
-
-        .project-desc {
-            font-size: 0.85rem;
-            color: var(--muted);
-            font-weight: 300;
-            margin-top: 0.2rem;
-        }
-
-        .project-tag {
-            font-family: var(--font-mono);
-            font-size: 0.6rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--blue-bright);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            padding: 0.3rem 0.7rem;
-            white-space: nowrap;
-        }
-
-        /* ─── CONTACT ─── */
-        #contact {
-            background: var(--black);
-            text-align: center;
-        }
-
-        .contact-big {
-            font-family: var(--font-display);
-            font-size: clamp(4rem, 10vw, 10rem);
-            line-height: 0.9;
-            background: linear-gradient(135deg, var(--white) 30%, var(--blue-bright) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 3rem 0 2rem;
-        }
-
-        .contact-email {
-            font-family: var(--font-mono);
-            font-size: clamp(0.8rem, 2vw, 1.1rem);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--muted);
-            text-decoration: none;
-            border-bottom: 1px solid var(--muted2);
-            padding-bottom: 3px;
-            transition: color 0.2s ease;
-        }
-
-        .contact-email:hover {
-            color: var(--blue-bright);
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            margin-top: 3.5rem;
-            flex-wrap: wrap;
-        }
-
-        .social-link {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: var(--muted);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.2s ease;
-        }
-
-        .social-link:hover {
-            color: var(--white);
-        }
-
-        .social-link svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        /* ─── FOOTER ─── */
-        footer {
-            padding: 2rem 3rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        footer p {
-            font-family: var(--font-mono);
-            font-size: 0.62rem;
-            letter-spacing: 0.12em;
-            color: var(--muted2);
-        }
-
-        /* ─── ANIMATIONS ─── */
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes expandLine {
-            from {
-                width: 0;
-            }
-
-            to {
-                width: 40px;
-            }
-        }
-
-        /* Reveal on scroll */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 {
-            transition-delay: 0.1s;
-        }
-
-        .reveal-delay-2 {
-            transition-delay: 0.2s;
-        }
-
-        .reveal-delay-3 {
-            transition-delay: 0.3s;
-        }
-
-        .reveal-delay-4 {
-            transition-delay: 0.4s;
-        }
-
-        /* Blue line accent */
-        .accent-line {
-            display: inline-block;
-            width: 3px;
-            height: 1.2em;
-            background: var(--blue-bright);
-            vertical-align: middle;
-            margin-right: 0.8rem;
-        }
-
-        /* ─── RESPONSIVE ─── */
-        @media (max-width: 768px) {
-            nav {
-                padding: 1.2rem 1.5rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            section {
-                padding: 5rem 1.5rem;
-            }
-
-            #hero {
-                padding: 0 1.5rem 4rem;
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .project-item {
-                grid-template-columns: 50px 1fr;
-            }
-
-            .project-tag {
-                display: none;
-            }
-
-            footer {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            body {
-                cursor: auto;
-            }
-
-            #cursor,
-            #cursor-ring {
-                display: none;
-            }
-        }
-    </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ersya Hasby Satria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#1e2a1e;
+      --bg2:#192119;
+      --bg3:#243024;
+      --surface:rgba(255,255,255,.04);
+      --blue:#3b82f6;
+      --blue2:#60a5fa;
+      --blue3:#93c5fd;
+      --cream:#e8e4d4;
+      --cream2:#c8c4b0;
+      --muted:rgba(232,228,212,.45);
+      --muted2:rgba(232,228,212,.2);
+      --fd:'Playfair Display',serif;
+      --fb:'DM Sans',sans-serif;
+      --fm:'DM Mono',monospace;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--cream);font-family:var(--fb);overflow-x:hidden;cursor:none}
+
+    /* CURSOR */
+    #cur{position:fixed;top:0;left:0;width:8px;height:8px;background:var(--blue2);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s}
+    #cur2{position:fixed;top:0;left:0;width:32px;height:32px;border:1px solid rgba(96,165,250,.35);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .35s cubic-bezier(.23,1,.32,1)}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;width:100%;z-index:100;padding:1.6rem 3rem;display:flex;align-items:center;justify-content:space-between}
+    nav.sc{background:rgba(30,42,30,.92);backdrop-filter:blur(20px)}
+    .nlogo{font-family:var(--fd);font-size:1rem;font-weight:900;letter-spacing:.05em;color:var(--cream);text-decoration:none;line-height:1.1}
+    .nlogo span{display:block;font-size:.55rem;font-weight:400;font-style:italic;color:var(--muted);letter-spacing:.15em;margin-top:.1rem}
+    .nlinks{display:flex;gap:3rem;list-style:none}
+    .nlinks a{font-family:var(--fm);font-size:.65rem;letter-spacing:.16em;color:var(--muted);text-decoration:none;text-transform:uppercase;transition:color .2s}
+    .nlinks a:hover{color:var(--cream)}
+
+    /* ── HERO ── */
+    #hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding:0 3rem 6rem;overflow:hidden}
+    .hero-line-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+    /* organic flowing lines like Lando bg */
+    .hero-line-bg svg{position:absolute;inset:0;width:100%;height:100%;opacity:.06}
+    .htxt{position:relative;z-index:1;width:100%}
+    .htag{font-family:var(--fm);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue2);margin-bottom:1.5rem;opacity:0;animation:fu .7s ease .2s forwards}
+    .hname{font-family:var(--fd);font-size:clamp(5.5rem,14vw,13.5rem);font-weight:900;line-height:.88;letter-spacing:-.02em;opacity:0;animation:fu 1s ease .35s forwards}
+    .hname em{font-style:italic;color:var(--blue2)}
+    .hbottom{display:flex;align-items:flex-end;justify-content:space-between;margin-top:2.5rem;opacity:0;animation:fu .8s ease .7s forwards}
+    .hsub{font-size:clamp(.85rem,1.3vw,1rem);color:var(--muted);max-width:380px;line-height:1.85;font-weight:300;font-style:italic}
+    .hcta{display:flex;flex-direction:column;align-items:flex-end;gap:1rem}
+    .btn-main{font-family:var(--fm);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);text-decoration:none;border:1px solid rgba(232,228,212,.25);padding:.85rem 1.8rem;transition:all .25s;cursor:none}
+    .btn-main:hover{border-color:var(--blue2);color:var(--blue2)}
+    .scroll-ind{font-family:var(--fm);font-size:.6rem;letter-spacing:.18em;color:var(--muted2);text-transform:uppercase;display:flex;align-items:center;gap:.8rem}
+    .scroll-ind::after{content:'';display:block;width:40px;height:1px;background:var(--muted2)}
+
+    /* ── MARQUEE TEXT ── */
+    .marquee-text{overflow:hidden;padding:2rem 0;border-top:1px solid var(--muted2);border-bottom:1px solid var(--muted2)}
+    .mt-inner{display:flex;white-space:nowrap;animation:marquee 22s linear infinite}
+    .mt-item{font-family:var(--fd);font-size:clamp(2.5rem,5vw,4.5rem);font-style:italic;font-weight:400;color:transparent;-webkit-text-stroke:1px rgba(232,228,212,.25);letter-spacing:.05em;padding:0 2rem;flex-shrink:0}
+    .mt-item.acc{-webkit-text-stroke:1px var(--blue2);color:transparent}
+    .mt-dot{width:8px;height:8px;border-radius:50%;background:var(--blue2);opacity:.5;margin:auto 1rem;flex-shrink:0}
+    @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+    /* ── PHOTO + QUOTE ── */
+    #intro{padding:7rem 3rem;background:var(--bg2);display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+    .photo-col{position:relative}
+    .photo-main{width:100%;aspect-ratio:4/5;overflow:hidden;position:relative}
+    .photo-main img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(15%) sepia(10%) contrast(1.05)}
+    .photo-caption{position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(transparent,rgba(25,33,25,.9));font-family:var(--fm);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+    .photo-year{position:absolute;top:1.5rem;right:-1rem;font-family:var(--fd);font-size:6rem;font-weight:900;color:rgba(59,130,246,.06);line-height:1;writing-mode:vertical-rl}
+    .quote-col{}
+    .ql{font-family:var(--fm);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue2);margin-bottom:2rem}
+    .quote-big{font-family:var(--fd);font-size:clamp(3rem,6vw,5.5rem);font-weight:900;font-style:italic;line-height:.92;letter-spacing:-.02em}
+    .quote-big span{display:block}
+    .quote-big .bl{color:var(--blue2)}
+    .quote-sig{font-family:var(--fm);font-size:.65rem;letter-spacing:.15em;color:var(--muted);margin-top:2rem;text-transform:uppercase}
+    .about-body{margin-top:2.5rem}
+    .about-body p{font-size:.95rem;color:var(--muted);font-weight:300;line-height:1.9;margin-bottom:1.1rem}
+    .about-body p strong{color:var(--cream);font-weight:400}
+    .counters{display:flex;gap:3rem;margin-top:2.5rem}
+    .counter-item .cn{font-family:var(--fd);font-size:3.2rem;font-weight:900;color:var(--blue2);line-height:1}
+    .counter-item .cl{font-family:var(--fm);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
+
+    /* ── TECH SCROLL ── */
+    #tech{padding:3.5rem 0;background:var(--bg3);overflow:hidden;border-top:1px solid var(--muted2);border-bottom:1px solid var(--muted2)}
+    .tech-track{display:flex;gap:0;animation:marquee 20s linear infinite}
+    .tech-item{display:flex;align-items:center;gap:.6rem;padding:0 2rem;font-family:var(--fm);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);flex-shrink:0;white-space:nowrap}
+    .tech-item i{font-style:normal;font-size:1rem}
+    .tech-sep{width:1px;height:16px;background:var(--muted2);margin:auto .5rem;opacity:.4;flex-shrink:0}
+
+    /* ── EXPERIENCE ── */
+    #exp{padding:8rem 3rem;background:var(--bg)}
+    .sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:5rem}
+    .sec-label{font-family:var(--fm);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue2);margin-bottom:.8rem}
+    .sec-title{font-family:var(--fd);font-size:clamp(3rem,6vw,6rem);font-weight:900;font-style:italic;line-height:.9}
+    .sec-sub{font-family:var(--fm);font-size:.65rem;letter-spacing:.12em;color:var(--muted);max-width:220px;line-height:1.7;text-align:right}
+    .exp-list{}
+    .exp-row{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px}
+    .exp-card{padding:2.5rem 2.5rem;background:var(--surface);border:1px solid rgba(232,228,212,.05);position:relative;overflow:hidden;transition:all .35s}
+    .exp-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--blue2);transition:width .4s ease}
+    .exp-card:hover{background:rgba(59,130,246,.04);border-color:rgba(96,165,250,.15)}
+    .exp-card:hover::after{width:100%}
+    .ec-org{font-family:var(--fm);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blue2);margin-bottom:.5rem}
+    .ec-role{font-family:var(--fd);font-size:1.5rem;font-weight:700;line-height:1.1;margin-bottom:.4rem}
+    .ec-period{font-family:var(--fm);font-size:.58rem;color:var(--muted);letter-spacing:.1em;margin-bottom:1rem}
+    .ec-desc{font-size:.82rem;color:var(--muted);font-weight:300;line-height:1.75}
+    .exp-card.highlight{background:rgba(59,130,246,.06);border-color:rgba(96,165,250,.15)}
+
+    /* ── PROJECTS ── */
+    #proj{padding:8rem 3rem;background:var(--bg2)}
+    .proj-items{margin-top:4rem}
+    .proj-row{display:flex;align-items:center;justify-content:space-between;padding:2rem 0;border-bottom:1px solid rgba(232,228,212,.07);transition:all .3s;gap:2rem}
+    .proj-row:hover{padding-left:1rem}
+    .proj-left{display:flex;align-items:center;gap:2rem}
+    .pnum{font-family:var(--fm);font-size:.6rem;color:rgba(232,228,212,.2);letter-spacing:.1em;min-width:40px}
+    .pname{font-family:var(--fd);font-size:clamp(1.4rem,3vw,2rem);font-weight:700;font-style:italic;transition:color .2s;line-height:1}
+    .proj-row:hover .pname{color:var(--blue2)}
+    .pdesc{font-size:.8rem;color:var(--muted);font-weight:300;margin-top:.25rem}
+    .ptag{font-family:var(--fm);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--blue2);border:1px solid rgba(96,165,250,.25);padding:.3rem .8rem;white-space:nowrap;text-decoration:none;transition:all .2s;cursor:none;flex-shrink:0}
+    .ptag:hover{background:rgba(96,165,250,.1)}
+
+    /* ── CONTACT ── */
+    #contact{padding:8rem 3rem 5rem;background:var(--bg3);position:relative;overflow:hidden}
+    #contact::before{content:'CONNECT';position:absolute;bottom:-2rem;right:-1rem;font-family:var(--fd);font-size:clamp(8rem,18vw,18rem);font-weight:900;font-style:italic;color:transparent;-webkit-text-stroke:1px rgba(232,228,212,.04);pointer-events:none;line-height:1}
+    .contact-inner{position:relative;z-index:1;max-width:800px}
+    .contact-label{font-family:var(--fm);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue2);margin-bottom:1.5rem}
+    .contact-title{font-family:var(--fd);font-size:clamp(3.5rem,8vw,8rem);font-weight:900;font-style:italic;line-height:.9;margin-bottom:2.5rem}
+    .contact-title span{color:var(--blue2)}
+    .contact-desc{font-size:.95rem;color:var(--muted);font-weight:300;line-height:1.85;max-width:420px;margin-bottom:3rem}
+    .cemail{font-family:var(--fd);font-size:clamp(1rem,2.5vw,1.6rem);font-style:italic;color:var(--cream);text-decoration:none;border-bottom:1px solid rgba(232,228,212,.2);padding-bottom:4px;transition:all .2s;cursor:none;display:inline-block;margin-bottom:3rem}
+    .cemail:hover{color:var(--blue2);border-color:var(--blue2)}
+    .socials{display:flex;gap:2rem;flex-wrap:wrap}
+    .soc{font-family:var(--fm);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .2s;cursor:none}
+    .soc:hover{color:var(--cream)}
+    .soc svg{width:12px;height:12px;fill:currentColor}
+
+    footer{padding:2rem 3rem;border-top:1px solid rgba(232,228,212,.06);display:flex;justify-content:space-between;align-items:center}
+    footer p{font-family:var(--fm);font-size:.58rem;letter-spacing:.1em;color:var(--muted2)}
+
+    /* REVEALS */
+    @keyframes fu{to{opacity:1;transform:translateY(0)}}
+    .rv{opacity:0;transform:translateY(24px);transition:opacity .75s ease,transform .75s ease}
+    .rv.vis{opacity:1;transform:translateY(0)}
+    .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}.rv.d4{transition-delay:.4s}.rv.d5{transition-delay:.5s}
+
+    @media(max-width:768px){
+      nav{padding:1.2rem 1.5rem}.nlinks{display:none}
+      #hero,#intro,#exp,#proj,#contact{padding-left:1.5rem;padding-right:1.5rem}
+      #intro{grid-template-columns:1fr;gap:3rem}
+      .hbottom{flex-direction:column;align-items:flex-start;gap:1.5rem}
+      .hcta{align-items:flex-start}
+      .exp-row{grid-template-columns:1fr}
+      .proj-row{flex-wrap:wrap}.ptag{display:none}
+      .counters{gap:1.5rem}
+      footer{flex-direction:column;gap:1rem;text-align:center}
+      body{cursor:auto}#cur,#cur2{display:none}
+    }
+  </style>
 </head>
-
 <body>
+  <div id="cur"></div>
+  <div id="cur2"></div>
 
-    <!-- Custom cursor -->
-    <div id="cursor"></div>
-    <div id="cursor-ring"></div>
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="nlogo">ERSYA HASBY<span>SATRIA · 2024</span></a>
+    <ul class="nlinks">
+      <li><a href="#intro">About</a></li>
+      <li><a href="#exp">Experience</a></li>
+      <li><a href="#proj">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-    <!-- NAV -->
-    <nav id="navbar">
-        <a href="#hero" class="nav-logo">EHS_</a>
-        <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#stack">Stack</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
-
-    <!-- HERO -->
-    <section id="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-grid"></div>
-
-        <div class="hero-deco deco-1">[ 00 — PORTFOLIO ]</div>
-        <div class="hero-deco deco-2">v1.0.0 · 2025</div>
-        <div class="hero-deco deco-3">BANDUNG, ID</div>
-        <div class="hero-deco deco-4">D3 TEKNIK INFORMATIKA</div>
-
-        <p class="hero-tag">Developer &amp; Software Engineer</p>
-        <h1 class="hero-name">ERSYA<br /><span>HASBY</span><br />SATRIA</h1>
-        <p class="hero-sub">
-            Membangun solusi digital dengan kode yang bersih dan desain yang purposeful.
-            Bergerak di bidang web development, database, dan software engineering.
-        </p>
-        <div class="hero-cta">
-            <a href="#projects" class="btn-primary">
-                Lihat Proyek
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M1 6h10M6 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </a>
-            <a href="#contact" class="btn-secondary">Hubungi Saya</a>
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-line-bg">
+      <!-- organic SVG lines like Lando's background -->
+      <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M-100 600 C200 400 400 800 700 500 C1000 200 1200 700 1600 400" stroke="#e8e4d4" stroke-width="1.5"/>
+        <path d="M-100 700 C300 500 500 900 800 600 C1100 300 1300 800 1700 500" stroke="#e8e4d4" stroke-width="1"/>
+        <path d="M0 300 C300 100 600 500 900 300 C1200 100 1400 600 1600 200" stroke="#e8e4d4" stroke-width=".8"/>
+        <path d="M200 800 C400 600 700 900 1000 700 C1300 500 1500 800 1700 600" stroke="#3b82f6" stroke-width=".6"/>
+        <path d="M-200 200 C100 400 300 100 600 300 C900 500 1100 200 1400 400" stroke="#e8e4d4" stroke-width=".5"/>
+      </svg>
+    </div>
+    <div class="htxt">
+      <p class="htag">Informatics Engineering · Polban · Bandung</p>
+      <h1 class="hname">ERSYA<br/><em>HASBY</em><br/>SATRIA</h1>
+      <div class="hbottom">
+        <p class="hsub">Membangun solusi digital. Memimpin dengan hati. Bermain dengan totalitas.</p>
+        <div class="hcta">
+          <a href="#proj" class="btn-main">Lihat Proyek →</a>
+          <div class="scroll-ind">Scroll</div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="scroll-hint">
-            <span>Scroll</span>
-            <div class="scroll-line"></div>
+  <!-- MARQUEE TEXT (like Lando's scrolling text) -->
+  <div class="marquee-text">
+    <div class="mt-inner">
+      <span class="mt-item">DEVELOPER</span><span class="mt-dot"></span>
+      <span class="mt-item acc">ORGANIZER</span><span class="mt-dot"></span>
+      <span class="mt-item">PRESIDENT USF POLBAN</span><span class="mt-dot"></span>
+      <span class="mt-item acc">WONG LIYO NGERTI OPO</span><span class="mt-dot"></span>
+      <span class="mt-item">INFORMATIKA POLBAN</span><span class="mt-dot"></span>
+      <span class="mt-item acc">BEST PLAYER</span><span class="mt-dot"></span>
+      <span class="mt-item">DEVELOPER</span><span class="mt-dot"></span>
+      <span class="mt-item acc">ORGANIZER</span><span class="mt-dot"></span>
+      <span class="mt-item">PRESIDENT USF POLBAN</span><span class="mt-dot"></span>
+      <span class="mt-item acc">WONG LIYO NGERTI OPO</span><span class="mt-dot"></span>
+      <span class="mt-item">INFORMATIKA POLBAN</span><span class="mt-dot"></span>
+      <span class="mt-item acc">BEST PLAYER</span><span class="mt-dot"></span>
+    </div>
+  </div>
+
+  <!-- PHOTO + QUOTE/ABOUT -->
+  <section id="intro">
+    <div class="photo-col rv">
+      <div class="photo-main">
+        <img src="photo.png" alt="Ersya Hasby Satria"/>
+        <div class="photo-caption">🏆 Champions &amp; Best Player — Listrik Cup Championship, Bandung</div>
+      </div>
+      <div class="photo-year">2025</div>
+    </div>
+    <div class="rv d1">
+      <p class="ql">// Prinsip & Identitas</p>
+      <div class="quote-big">
+        <span>WONG</span>
+        <span class="bl"><em>LIYO</em></span>
+        <span>NGERTI</span>
+        <span class="bl"><em>OPO</em></span>
+      </div>
+      <p class="quote-sig">— Ersya Hasby Satria &nbsp;·&nbsp; Bandung</p>
+      <div class="about-body">
+        <p>Saya <strong>Ersya Hasby Satria</strong>, mahasiswa D3 Teknik Informatika Polban yang percaya bahwa kemampuan teknis harus beriringan dengan kepemimpinan dan komunikasi yang kuat.</p>
+        <p>Saat ini memimpin <strong>Unit Sepak Bola & Futsal Polban</strong> dengan 100+ anggota aktif, sekaligus aktif sebagai Senior Staff Media di HIMAKOM, ASSALAM, dan DKM Polban.</p>
+      </div>
+      <div class="counters rv d2">
+        <div class="counter-item"><div class="cn">100+</div><div class="cl">Anggota USF</div></div>
+        <div class="counter-item"><div class="cn">5+</div><div class="cl">Organisasi</div></div>
+        <div class="counter-item"><div class="cn">58+</div><div class="cl">Repo GitHub</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH SCROLL -->
+  <div id="tech">
+    <div class="tech-track">
+      <div class="tech-item"><i>🔷</i>C / C++</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>☕</i>Java</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🌐</i>JavaScript</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🐘</i>PHP</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🔴</i>Laravel</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>💚</i>Vue.js</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🐍</i>Python</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🗄️</i>MySQL</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🍃</i>MongoDB</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🐘</i>PostgreSQL</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🎨</i>Figma</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🖌️</i>Canva</div><div class="tech-sep"></div>
+      <!-- duplicate -->
+      <div class="tech-item"><i>🔷</i>C / C++</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>☕</i>Java</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🌐</i>JavaScript</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🐘</i>PHP</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🔴</i>Laravel</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>💚</i>Vue.js</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🐍</i>Python</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🗄️</i>MySQL</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🍃</i>MongoDB</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🐘</i>PostgreSQL</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🎨</i>Figma</div><div class="tech-sep"></div>
+      <div class="tech-item"><i>🖌️</i>Canva</div><div class="tech-sep"></div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <section id="exp">
+    <div class="sec-head rv">
+      <div>
+        <p class="sec-label">// Pengalaman</p>
+        <h2 class="sec-title">Organisasi<br/>&amp; Karir</h2>
+      </div>
+      <p class="sec-sub">Dari kampus hingga lapangan — memimpin, berkarya, dan terus berkembang.</p>
+    </div>
+    <div class="exp-list">
+      <div class="exp-row">
+        <div class="exp-card highlight rv">
+          <p class="ec-org">USF Polban · Institusi</p>
+          <h3 class="ec-role">President</h3>
+          <p class="ec-period">Jan 2026 — Sekarang</p>
+          <p class="ec-desc">Memimpin unit olahraga terbesar di Polban. Mengelola 100+ anggota aktif, koordinasi turnamen antar-universitas, dan membangun kemitraan dengan kampus & alumni.</p>
         </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- ABOUT -->
-    <section id="about">
-        <div class="section-label reveal">// 01 — Tentang</div>
-        <h2 class="section-title reveal reveal-delay-1">SIAPA<br />SAYA</h2>
-        <div class="about-grid">
-            <div class="about-text reveal reveal-delay-2">
-                <p>
-                    Halo! Saya <strong>Ersya Hasby Satria</strong>, mahasiswa D3 Teknik Informatika
-                    yang berbasis di <strong>Bandung, Jawa Barat</strong>. Saya passionate dalam
-                    membangun aplikasi web yang fungsional dan terstruktur.
-                </p>
-                <p>
-                    Dengan pengalaman mengerjakan <strong>58+ repositori</strong>, saya terbiasa
-                    bekerja di berbagai stack mulai dari backend PHP/Laravel, frontend JavaScript,
-                    hingga database MySQL dan PostgreSQL.
-                </p>
-                <p>
-                    Selain coding, saya juga familiar dengan <strong>Figma</strong> untuk desain UI
-                    dan <strong>Canva</strong> untuk kebutuhan visual. Saya percaya bahwa produk yang
-                    baik lahir dari perpaduan fungsi dan estetika.
-                </p>
-            </div>
-            <div class="stats-grid reveal reveal-delay-3">
-                <div class="stat-box">
-                    <div class="stat-num">58+</div>
-                    <div class="stat-label">Repositori GitHub</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num">9+</div>
-                    <div class="stat-label">Tech Stack</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num">D3</div>
-                    <div class="stat-label">Teknik Informatika</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-num">ID</div>
-                    <div class="stat-label">Bandung, Indonesia</div>
-                </div>
-            </div>
+        <div class="exp-card rv d1">
+          <p class="ec-org">HIMAKOM Polban</p>
+          <h3 class="ec-role">Ketua Divisi Olahraga</h3>
+          <p class="ec-period">Jan 2026 — Sekarang · sebelumnya Mar 2025</p>
+          <p class="ec-desc">Memimpin Divisi Olahraga Dept. Seni & Olahraga HIMAKOM. Merancang program tahunan, mengelola anggaran, dan memastikan partisipasi tinggi mahasiswa Informatika.</p>
         </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- STACK -->
-    <section id="stack">
-        <div class="section-label reveal">// 02 — Tech Stack</div>
-        <h2 class="section-title reveal reveal-delay-1">TOOLS &amp;<br />BAHASA</h2>
-        <div class="stack-grid">
-            <div class="stack-item reveal">
-                <div class="stack-icon">🔷</div>
-                <div class="stack-name">C / C++</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-1">
-                <div class="stack-icon">☕</div>
-                <div class="stack-name">Java</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-2">
-                <div class="stack-icon">🌐</div>
-                <div class="stack-name">JavaScript</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-3">
-                <div class="stack-icon">🐘</div>
-                <div class="stack-name">PHP</div>
-            </div>
-            <div class="stack-item reveal">
-                <div class="stack-icon">🐍</div>
-                <div class="stack-name">Python</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-1">
-                <div class="stack-icon">🔴</div>
-                <div class="stack-name">Laravel</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-2">
-                <div class="stack-icon">💚</div>
-                <div class="stack-name">Vue.js</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-3">
-                <div class="stack-icon">🗄️</div>
-                <div class="stack-name">MySQL</div>
-            </div>
-            <div class="stack-item reveal">
-                <div class="stack-icon">🍃</div>
-                <div class="stack-name">MongoDB</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-1">
-                <div class="stack-icon">🐘</div>
-                <div class="stack-name">PostgreSQL</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-2">
-                <div class="stack-icon">🎨</div>
-                <div class="stack-name">Figma</div>
-            </div>
-            <div class="stack-item reveal reveal-delay-3">
-                <div class="stack-icon">🖌️</div>
-                <div class="stack-name">Canva</div>
-            </div>
+      </div>
+      <div class="exp-row">
+        <div class="exp-card rv d2">
+          <p class="ec-org">ASSALAM Polban</p>
+          <h3 class="ec-role">Senior Staff Media Bureau</h3>
+          <p class="ec-period">Jan 2026 — Sekarang · sebelumnya Jan 2025</p>
+          <p class="ec-desc">Mengembangkan strategi media tahunan, quality control materi publikasi, dan menjadi mentor junior staff dalam desain grafis, videografi & manajemen konten.</p>
         </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- PROJECTS -->
-    <section id="projects">
-        <div class="section-label reveal">// 03 — Proyek</div>
-        <h2 class="section-title reveal reveal-delay-1">KARYA<br />PILIHAN</h2>
-        <div class="projects-list">
-
-            <div class="project-item reveal">
-                <div class="project-num">001</div>
-                <div>
-                    <div class="project-name">Polban DataHub</div>
-                    <div class="project-desc">Platform data terpusat untuk Politeknik Negeri Bandung. Dibangun dengan
-                        PHP.</div>
-                </div>
-                <a href="https://github.com/ErsyaHasby/polban-datahub" target="_blank" rel="noopener"
-                    class="project-tag">PHP · GitHub</a>
-            </div>
-
-            <div class="project-item reveal reveal-delay-1">
-                <div class="project-num">002</div>
-                <div>
-                    <div class="project-name">Campus Org Manager</div>
-                    <div class="project-desc">Sistem manajemen organisasi kampus berbasis Java. Kolaborasi tim.</div>
-                </div>
-                <a href="https://github.com/VarianAbi/campus-organization-manager" target="_blank" rel="noopener"
-                    class="project-tag">Java · Kolaborasi</a>
-            </div>
-
-            <div class="project-item reveal reveal-delay-2">
-                <div class="project-num">003</div>
-                <div>
-                    <div class="project-name">Proyek 3 — Mission Series</div>
-                    <div class="project-desc">Serangkaian misi pengembangan web untuk mata kuliah Proyek 3.</div>
-                </div>
-                <a href="https://github.com/ErsyaHasby/Mission3-Proyek3" target="_blank" rel="noopener"
-                    class="project-tag">PHP · Laravel</a>
-            </div>
-
-            <div class="project-item reveal reveal-delay-3">
-                <div class="project-num">004</div>
-                <div>
-                    <div class="project-name">SDA Paper</div>
-                    <div class="project-desc">Tugas besar Struktur Data dan Algoritma — implementasi dalam bahasa C.
-                    </div>
-                </div>
-                <a href="https://github.com/alatteee/tubes-sda-paper" target="_blank" rel="noopener"
-                    class="project-tag">C · Algoritma</a>
-            </div>
-
-            <div class="project-item reveal">
-                <div class="project-num">005</div>
-                <div>
-                    <div class="project-name">UTS Proyek 3</div>
-                    <div class="project-desc">Evaluasi tengah semester mata kuliah Proyek 3 — web application berbasis
-                        PHP.</div>
-                </div>
-                <a href="https://github.com/ErsyaHasby/DPR_241511072_2C_ErsyaHasbySatria" target="_blank" rel="noopener"
-                    class="project-tag">PHP · Akademik</a>
-            </div>
-
+        <div class="exp-card rv d3">
+          <p class="ec-org">DKM Luqmanul Hakim Polban</p>
+          <h3 class="ec-role">Senior Staff Divisi Media</h3>
+          <p class="ec-period">Jan 2026 — Sekarang</p>
+          <p class="ec-desc">Mengarahkan konsep kreatif konten digital da'wah, koordinasi tim dokumentasi & desain untuk acara-acara besar di Masjid Luqmanul Hakim Polban.</p>
         </div>
-        <div style="margin-top:3rem;" class="reveal">
-            <a href="https://github.com/ErsyaHasby" target="_blank" rel="noopener" class="btn-secondary">Lihat semua 58
-                repositori →</a>
+      </div>
+      <div class="exp-row">
+        <div class="exp-card rv">
+          <p class="ec-org">PT Indorental Media · Kerja</p>
+          <h3 class="ec-role">Warehouse Assistant</h3>
+          <p class="ec-period">Jan 2024 — Jun 2024 · 6 bulan</p>
+          <p class="ec-desc">Mengelola inventaris peralatan event (sound system, proyektor, monitor). Koordinasi logistik dan setup on-site untuk klien.</p>
         </div>
-    </section>
-
-    <div class="divider"></div>
-
-    <!-- CONTACT -->
-    <section id="contact">
-        <div class="section-label reveal">// 04 — Kontak</div>
-        <div class="contact-big reveal reveal-delay-1">MARI<br />BERKOLABORASI</div>
-        <p style="color:var(--muted);font-size:0.95rem;font-weight:300;max-width:480px;margin:0 auto 2rem;line-height:1.8;"
-            class="reveal reveal-delay-2">
-            Terbuka untuk proyek, kolaborasi, atau sekadar ngobrol soal teknologi. Jangan ragu untuk reach out.
-        </p>
-        <a href="mailto:hasbysatria54@gmail.com" class="contact-email reveal reveal-delay-3">hasbysatria54@gmail.com</a>
-        <div class="social-links reveal reveal-delay-4">
-            <a href="https://github.com/ErsyaHasby" target="_blank" rel="noopener" class="social-link">
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.74-1.33-1.74-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.23 1.83 1.23 1.07 1.83 2.8 1.3 3.49.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z" />
-                </svg>
-                GitHub
-            </a>
-            <a href="https://linkedin.com/in/ersyahasbysatria" target="_blank" rel="noopener" class="social-link">
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.93v5.68H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.35-1.85 3.58 0 4.24 2.36 4.24 5.43v6.31zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.23 0z" />
-                </svg>
-                LinkedIn
-            </a>
-            <a href="https://instagram.com/ersaa.hs" target="_blank" rel="noopener" class="social-link">
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12c0-3.2.01-3.58.07-4.85C2.38 3.86 3.9 2.31 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24c3.26 0 3.67-.01 4.95-.07 4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95 0-3.26-.01-3.67-.07-4.95C23.73 2.71 21.31.27 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32A6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z" />
-                </svg>
-                Instagram
-            </a>
-            <a href="https://tiktok.com/@ersaputbol" target="_blank" rel="noopener" class="social-link">
-                <svg viewBox="0 0 24 24">
-                    <path
-                        d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.3a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.02-.06z" />
-                </svg>
-                TikTok
-            </a>
+        <div class="exp-card rv d1">
+          <p class="ec-org">Dewan Kerja Ranting Cicendo · Pramuka</p>
+          <h3 class="ec-role">Divisi Kegiatan Pramuka</h3>
+          <p class="ec-period">Jul 2023 — Des 2025 · 2,5 tahun</p>
+          <p class="ec-desc">Merencanakan kegiatan kepramukaan lokal & regional. Mengorganisir pelatihan, perkemahan, dan program pengembangan kepemimpinan pemuda.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>© 2025 Ersya Hasby Satria. All rights reserved.</p>
-    </footer>
+  <!-- PROJECTS -->
+  <section id="proj">
+    <div class="sec-head rv">
+      <div>
+        <p class="sec-label">// Proyek</p>
+        <h2 class="sec-title">Karya<br/>Pilihan</h2>
+      </div>
+      <p class="sec-sub">58+ repositori di GitHub — dari akademik hingga kolaborasi tim.</p>
+    </div>
+    <div class="proj-items">
+      <div class="proj-row rv">
+        <div class="proj-left">
+          <span class="pnum">001</span>
+          <div><div class="pname">Polban DataHub</div><div class="pdesc">Platform data terpusat Polban · PHP · 3 stars</div></div>
+        </div>
+        <a href="https://github.com/ErsyaHasby/polban-datahub" target="_blank" class="ptag">PHP · GitHub ↗</a>
+      </div>
+      <div class="proj-row rv d1">
+        <div class="proj-left">
+          <span class="pnum">002</span>
+          <div><div class="pname">Campus Org Manager</div><div class="pdesc">Sistem manajemen organisasi kampus · Java · Kolaborasi tim</div></div>
+        </div>
+        <a href="https://github.com/VarianAbi/campus-organization-manager" target="_blank" class="ptag">Java · Kolaborasi ↗</a>
+      </div>
+      <div class="proj-row rv d2">
+        <div class="proj-left">
+          <span class="pnum">003</span>
+          <div><div class="pname">Mission Series — Proyek 3</div><div class="pdesc">Serangkaian misi web development Laravel untuk mata kuliah Proyek 3</div></div>
+        </div>
+        <a href="https://github.com/ErsyaHasby/Mission3-Proyek3" target="_blank" class="ptag">Laravel · ↗</a>
+      </div>
+      <div class="proj-row rv d3">
+        <div class="proj-left">
+          <span class="pnum">004</span>
+          <div><div class="pname">SDA Paper</div><div class="pdesc">Tugas besar Struktur Data & Algoritma — implementasi bahasa C</div></div>
+        </div>
+        <a href="https://github.com/alatteee/tubes-sda-paper" target="_blank" class="ptag">C · Algoritma ↗</a>
+      </div>
+      <div class="proj-row rv d4">
+        <div class="proj-left">
+          <span class="pnum">005</span>
+          <div><div class="pname">UTS Proyek 3</div><div class="pdesc">Evaluasi tengah semester — web application PHP/Laravel</div></div>
+        </div>
+        <a href="https://github.com/ErsyaHasby/DPR_241511072_2C_ErsyaHasbySatria" target="_blank" class="ptag">PHP · Akademik ↗</a>
+      </div>
+    </div>
+    <div style="margin-top:3rem" class="rv">
+      <a href="https://github.com/ErsyaHasby" target="_blank" style="font-family:var(--fm);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;border-bottom:1px solid rgba(232,228,212,.15);padding-bottom:2px;cursor:none">Lihat semua 58+ repositori →</a>
+    </div>
+  </section>
 
-    <script>
-        // ── CURSOR
-        const cursor = document.getElementById('cursor');
-        const ring = document.getElementById('cursor-ring');
-        let mx = 0, my = 0, rx = 0, ry = 0;
-        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-        function animateCursor() {
-            rx += (mx - rx) * 0.12;
-            ry += (my - ry) * 0.12;
-            cursor.style.left = mx + 'px';
-            cursor.style.top = my + 'px';
-            ring.style.left = rx + 'px';
-            ring.style.top = ry + 'px';
-            requestAnimationFrame(animateCursor);
-        }
-        animateCursor();
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <p class="contact-label rv">// 04 — Kontak</p>
+      <h2 class="contact-title rv d1">MARI<br/><span>KOLABORASI</span></h2>
+      <p class="contact-desc rv d2">Terbuka untuk proyek, kolaborasi, freelance, atau sekadar ngobrol soal teknologi dan olahraga.</p>
+      <a href="mailto:ersya.hasby.tif24@polban.ac.id" class="cemail rv d3">ersya.hasby.tif24@polban.ac.id</a>
+      <div class="socials rv d4">
+        <a href="https://github.com/ErsyaHasby" target="_blank" class="soc"><svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.74-1.33-1.74-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.23 1.83 1.23 1.07 1.83 2.8 1.3 3.49.99.11-.77.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58C20.57 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>GitHub</a>
+        <a href="https://linkedin.com/in/ersyahasbysatria" target="_blank" class="soc"><svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.93v5.68H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.35-1.85 3.58 0 4.24 2.36 4.24 5.43v6.31zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zm1.78 13.02H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.23 0z"/></svg>LinkedIn</a>
+        <a href="https://instagram.com/ersaa.hs" target="_blank" class="soc"><svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85 0 3.2-.01 3.58-.07 4.85-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07-3.2 0-3.58-.01-4.85-.07-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12c0-3.2.01-3.58.07-4.85C2.38 3.86 3.9 2.31 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.7.07 7.05.01 8.33 0 8.74 0 12c0 3.26.01 3.67.07 4.95.2 4.36 2.62 6.78 6.98 6.98C8.33 23.99 8.74 24 12 24c3.26 0 3.67-.01 4.95-.07 4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95 0-3.26-.01-3.67-.07-4.95C23.73 2.71 21.31.27 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32A6.16 6.16 0 0 0 12 5.84zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>Instagram</a>
+        <a href="https://tiktok.com/@HasbySatria" target="_blank" class="soc"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15.3a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.75a4.85 4.85 0 0 1-1.02-.06z"/></svg>TikTok</a>
+        <a href="mailto:hasbysatria54@gmail.com" class="soc"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>Email</a>
+      </div>
+    </div>
+  </section>
 
-        // ── NAV SCROLL
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 60);
-        });
+  <footer>
+    <p>© 2025 Ersya Hasby Satria. All rights reserved.</p>
+    <p>ersyahasby.my.id · Built with pure HTML</p>
+  </footer>
 
-        // ── REVEAL ON SCROLL
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                if (e.isIntersecting) { e.target.classList.add('visible'); }
-            });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    </script>
+  <script>
+    // CURSOR
+    const c=document.getElementById('cur'),c2=document.getElementById('cur2');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+    (function t(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;c.style.cssText=`left:${mx}px;top:${my}px`;c2.style.cssText=`left:${rx}px;top:${ry}px`;requestAnimationFrame(t)})();
+    // NAV
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('sc',scrollY>50));
+    // REVEAL
+    const obs=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('vis')),{threshold:.08});
+    document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+  </script>
 </body>
-
 </html>
